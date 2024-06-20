@@ -6,10 +6,27 @@ function createStore() {
     // 4. updating the state
 
     let state
+    let listeners = []
 
     let getState = () => state
+
+    let subscribe = (listener) => {
+        listeners.push(listener)
+
+        return () => {
+            listeners = listeners.filter((l) => l !== listener)
+        }
+    }
 
     return {
         getState
     }
 }
+
+const myStore = createStore()
+
+const unsubscribe = myStore.subscribe(()=> { // adding this callback to the listeners array in the store. So it will be called when state change occurs.
+
+})
+// and this function will return the function, calling which removes the callback from the listeners array in the store.
+unsubscribe()
