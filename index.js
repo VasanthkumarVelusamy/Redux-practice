@@ -38,7 +38,7 @@ const todos = (state = [], action) => {
     return state
 }
 
-function createStore() {
+function createStore(reducer) {
     // Store should have the following components
     // 1. the state.
     // 2. getting the state.
@@ -58,15 +58,33 @@ function createStore() {
         }
     }
 
+    let dispatch = (action) => {
+        // 1. call reducer function to update the state
+        state = reducer(state, action)
+        // 2. loop over the listeners and invoke them
+        listeners.forEach(listener => listener())
+    }
+
     return {
-        getState
+        getState,
+        subscribe,
+        dispatch
     }
 }
 
-const myStore = createStore()
+const myStore = createStore(todos)
 
 const unsubscribe = myStore.subscribe(()=> { // adding this callback to the listeners array in the store. So it will be called when state change occurs.
-
+    console.log('this is the new state', myStore.getState())
 })
 // and this function will return the function, calling which removes the callback from the listeners array in the store.
-unsubscribe()
+// unsubscribe()
+
+myStore.dispatch({
+  type: 'ADD_TODO',
+  todo: {
+    id: 0,
+    name: 'Learn Redux',
+    complete: false,
+  }
+})
