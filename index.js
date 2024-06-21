@@ -30,6 +30,14 @@
   id: 0,
 }
 
+const todos = (state = [], action) => {
+    if (action.type = 'ADD_TODO') {
+        return [...state, action.todo]
+    }
+
+    return state
+}
+
 function createStore() {
     // Store should have the following components
     // 1. the state.
