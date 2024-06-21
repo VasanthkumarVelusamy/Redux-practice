@@ -41,6 +41,42 @@ const TOGGLE_TODO = 'TOGGLE_TODO'
 const ADD_GOAL = 'ADD_GOAL'
 const REMOVE_GOAL = 'REMOVE_GOAL'
 
+// Action creators
+const addTodoAction = (todo) => {
+    return {
+        type: ADD_TODO,
+        todo
+    }
+}
+
+const removeTodoAction = (id) => {
+    return {
+        type: REMOVE_TODO,
+        id
+    }
+}
+
+const toggleTodoAction = (id) => {
+    return {
+        type: TOGGLE_TODO,
+        id
+    }
+}
+
+const addGoalAction = (goal) => {
+    return {
+        type: ADD_GOAL,
+        goal
+    }
+}
+
+const removeGoalAction = (id) => {
+    return {
+        type: REMOVE_GOAL,
+        id
+    }
+}
+
 const todos = (state = [], action) => {
     switch (action.type) {
         case ADD_TODO:
@@ -82,34 +118,31 @@ const unsubscribe = myStore.subscribe(()=> { // adding this callback to the list
 // and this function will return the function, calling which removes the callback from the listeners array in the store.
 // unsubscribe()
 
-myStore.dispatch({
-  type: 'ADD_TODO',
-  todo: {
+myStore.dispatch(addTodoAction({
     id: 0,
     name: 'Learn Redux',
     complete: false,
-  }
-})
+}))
 
-myStore.dispatch({
-  type: 'REMOVE_TODO',
-  id: 0,
-})
+myStore.dispatch(addTodoAction({
+    id: 1,
+    name: 'Learn React',
+    complete: false,
+}))
 
-myStore.dispatch({
-  type: 'TOGGLE_TODO',
-  id: 0,
-})
+myStore.dispatch(addTodoAction({
+    id: 2,
+    name: 'Learn React Native',
+    complete: false,
+}))
 
-myStore.dispatch({
-  type: 'ADD_GOAL',
-  goal: {
+myStore.dispatch(removeTodoAction(2))
+
+myStore.dispatch(toggleTodoAction(1))
+
+myStore.dispatch(addGoalAction({
     id: 0,
     name: 'Run a Marathon'
-  }
-})
+}))
 
-myStore.dispatch({
-  type: 'REMOVE_GOAL',
-  id: 0,
-})
+myStore.dispatch(removeGoalAction(0))
