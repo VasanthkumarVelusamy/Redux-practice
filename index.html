@@ -17,6 +17,10 @@
             <ul id="goals"></ul>
         </div>
         <script type="text/javascript">
+            function generateId() {
+                return Date.now().toString(36) + Math.random().toString(36).substr(2);
+            }
+
             function createStore(reducer) {
                 // Store should have the following components
                 // 1. the state.
@@ -164,6 +168,36 @@
             }))
 
             myStore.dispatch(removeGoalAction(0))
+
+            const addTodo = () => {
+                const input = document.getElementById("todo")
+                const name = input.value
+                input.value = ''
+
+                myStore.dispatch(addTodoAction({
+                    id: generateId(),
+                    name,
+                    complete: false
+                }))
+            }
+
+            const addGoal = () => {
+                const input = document.getElementById("goal")
+                const name = input.value
+                input.value = ''
+
+                myStore.dispatch(addGoalAction({
+                    id: generateId(),
+                    name
+                }))
+            }
+
+            document.getElementById("addTodoButton")
+            .addEventListener('click', addTodo)
+
+            document.getElementById("addGoalButton")
+            .addEventListener('click', addGoal)
+
         </script>
     </body>
 </html>
