@@ -135,39 +135,67 @@
             const myStore = createStore(app)
 
             const unsubscribe = myStore.subscribe(()=> { // adding this callback to the listeners array in the store. So it will be called when state change occurs.
-                console.log('this is the new state', myStore.getState())
+                const { todos, goals } = myStore.getState()
+                console.log('todos ', todos)
+                console.log('goals ', goals)
+
+                document.getElementById('goals').innerHTML = ""
+                document.getElementById('todos').innerHTML = ""
+
+                todos.forEach(addTodoToDOM)
+                goals.forEach(addGoalToDOM)
             })
+
+            function addTodoToDOM(todo) {
+                const listItem = document.createElement('li')
+                const text = document.createTextNode(todo.name)
+                listItem.appendChild(text)
+                listItem.style.textDecoration = todo.complete ? 'line-through' : 'none'
+                listItem.addEventListener('click', ()=>myStore.dispatch(toggleTodoAction(todo.id)))
+                const todosList = document.getElementById('todos')
+                todosList.appendChild(listItem)
+            }
+
+            function addGoalToDOM(goal) {
+                const listItem = document.createElement('li')
+                const text = document.createTextNode(goal.name)
+                listItem.appendChild(text)
+                listItem.style.textDecoration = goal.complete ? 'line-through' : 'none'
+                listItem.addEventListener('click', ()=>myStore.dispatch(toggleTodoAction(goal.id)))
+                const goalsList = document.getElementById('goals')
+                goalsList.appendChild(listItem)
+            }
             // and this function will return the function, calling which removes the callback from the listeners array in the store.
             // unsubscribe()
 
-            myStore.dispatch(addTodoAction({
-                id: 0,
-                name: 'Learn Redux',
-                complete: false,
-            }))
+            // myStore.dispatch(addTodoAction({
+            //     id: 0,
+            //     name: 'Learn Redux',
+            //     complete: false,
+            // }))
 
-            myStore.dispatch(addTodoAction({
-                id: 1,
-                name: 'Learn React',
-                complete: false,
-            }))
+            // myStore.dispatch(addTodoAction({
+            //     id: 1,
+            //     name: 'Learn React',
+            //     complete: false,
+            // }))
 
-            myStore.dispatch(addTodoAction({
-                id: 2,
-                name: 'Learn React Native',
-                complete: false,
-            }))
+            // myStore.dispatch(addTodoAction({
+            //     id: 2,
+            //     name: 'Learn React Native',
+            //     complete: false,
+            // }))
 
-            myStore.dispatch(removeTodoAction(2))
+            // myStore.dispatch(removeTodoAction(2))
 
-            myStore.dispatch(toggleTodoAction(1))
+            // myStore.dispatch(toggleTodoAction(1))
 
-            myStore.dispatch(addGoalAction({
-                id: 0,
-                name: 'Run a Marathon'
-            }))
+            // myStore.dispatch(addGoalAction({
+            //     id: 0,
+            //     name: 'Run a Marathon'
+            // }))
 
-            myStore.dispatch(removeGoalAction(0))
+            // myStore.dispatch(removeGoalAction(0))
 
             const addTodo = () => {
                 const input = document.getElementById("todo")
