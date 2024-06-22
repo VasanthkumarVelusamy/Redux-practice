@@ -22,40 +22,6 @@
                 return Date.now().toString(36) + Math.random().toString(36).substr(2);
             }
 
-            function createStore(reducer) {
-                // Store should have the following components
-                // 1. the state.
-                // 2. getting the state.
-                // 3. listening to the changes of the state
-                // 4. updating the state
-
-                let state
-                let listeners = []
-
-                let getState = () => state
-
-                let subscribe = (listener) => {
-                    listeners.push(listener)
-
-                    return () => {
-                        listeners = listeners.filter((l) => l !== listener)
-                    }
-                }
-
-                let dispatch = (action) => {
-                    // 1. call reducer function to update the state
-                    state = reducer(state, action)
-                    // 2. loop over the listeners and invoke them
-                    listeners.forEach(listener => listener())
-                }
-
-                return {
-                    getState,
-                    subscribe,
-                    dispatch
-                }
-            }
-
             // App code
 
             const ADD_TODO = 'ADD_TODO'
@@ -121,13 +87,6 @@
                         return state.filter((goal) => goal.id !== action.id)
                     default:
                         return state
-                }
-            }
-
-            const app = (state = {}, action) => {
-                return {
-                    todos: todos(state.todos, action),
-                    goals: goals(state.goals, action)
                 }
             }
 
