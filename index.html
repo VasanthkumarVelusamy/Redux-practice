@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>TODOs/Goals</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/3.7.2/redux.min.js"></script>
     </head>
     <body>
         <div>
@@ -130,9 +131,10 @@
                 }
             }
 
-
-
-            const myStore = createStore(app)
+            const myStore = Redux.createStore(Redux.combineReducers({
+                todos,
+                goals
+            }))
 
             const unsubscribe = myStore.subscribe(()=> { // adding this callback to the listeners array in the store. So it will be called when state change occurs.
                 const { todos, goals } = myStore.getState()
