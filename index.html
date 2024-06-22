@@ -74,8 +74,18 @@
                 if (action.type === ADD_GOAL && action.goal.name.indexOf('bitcoin') !== -1) {
                     return alert("nope, bad idea")
                 }
+                console.log("checked before dispatching")
 
                 return next(action)
+            }
+
+            const logger = (store) => (next) => (action) => {
+                console.group(action.type)
+                console.log("the action: ", action)
+                const result = next(action)
+                console.log("the new store: ", store)
+                console.groupEnd()
+                return result
             }
 
             const todos = (state = [], action) => {
@@ -105,12 +115,12 @@
             const myStore = Redux.createStore(Redux.combineReducers({
                 todos,
                 goals
-            }), Redux.applyMiddleware(checker))
+            }), Redux.applyMiddleware(checker, logger))
 
             const unsubscribe = myStore.subscribe(()=> { // adding this callback to the listeners array in the store. So it will be called when state change occurs.
                 const { todos, goals } = myStore.getState()
-                console.log('todos ', todos)
-                console.log('goals ', goals)
+                // console.log('todos ', todos)
+                // console.log('goals ', goals)
 
                 document.getElementById('goals').innerHTML = ""
                 document.getElementById('todos').innerHTML = ""
